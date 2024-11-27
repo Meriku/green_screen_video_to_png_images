@@ -81,7 +81,7 @@ def remove_green_screen(frame, index, keyColor=None, tolerance=None):
     
     return cleaned
 
-def remove_green_screen_from_video(input_video_path, save_to_directory):
+def remove_green_screen_from_video(input_video_path, save_to_directory, process_all_frames = True):
     """
     Remove green screen from an entire video.
     
@@ -97,18 +97,23 @@ def remove_green_screen_from_video(input_video_path, save_to_directory):
 
     # Process each frame
     for idx, frame in enumerate(input_video.iter_frames()):
-        # Remove green screen from the frame
-        cleaned_frame = remove_green_screen(frame, idx)
-        
-        # Save the processed frame
-        outfile = os.path.join(save_to_directory, f'output_{idx}.png')
-        cleaned_frame.save(outfile, "PNG")
+
+        if process_all_frames or idx % 5 == 0:
+
+            # Remove green screen from the frame
+            cleaned_frame = remove_green_screen(frame, idx)
+            
+            # Save the processed frame
+            outfile = os.path.join(save_to_directory, f'output_{idx}.png')
+            cleaned_frame.save(outfile, "PNG")
+
+            print(f'finished processing frame #: {idx}')
 
     # Close the video to release resources
     input_video.close()
 
 
-input_video_path = r"path/input_video_name" # C:/myfolder/myvideo.mp4
+input_video_path = r"path/input_video_name"     # C:/myfolder/myvideo.mp4
 save_to_directory = r"path/output_folder_name"  # C:/myfolder/images    
 
 remove_green_screen_from_video(input_video_path, save_to_directory)
