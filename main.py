@@ -4,6 +4,7 @@ from PIL import Image, ImageChops
 from moviepy import *
 import os
 
+
 def colorclose(Cb_p, Cr_p, Cb_key, Cr_key, tola, tolb):
     """
     Calculate the alpha mask value based on color distance.
@@ -48,7 +49,7 @@ def remove_green_screen(frame, index, keyColor=None, tolerance=None):
     if keyColor is None:
         keyColor = inDataFG.getpixel((1, 1))
     if tolerance is None:
-        tolerance = [50, 130]
+        tolerance = [30, 120]
     
     [Y_key, Cb_key, Cr_key] = keyColor
     [tola, tolb] = tolerance
